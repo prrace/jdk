@@ -152,6 +152,9 @@ public abstract class DataTransferer {
     private static final Map<Long, Integer> nativeTerminators =
             Collections.synchronizedMap(new HashMap<>());
 
+    /**
+     * The Runnable for pending data conversion requests.
+     */
     private static volatile Runnable dataConverterInstance;
 
     static {
