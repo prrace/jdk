@@ -64,7 +64,6 @@ import javax.swing.JComponent;
 
 import sun.awt.AWTAccessor;
 import sun.awt.AWTAccessor.ComponentAccessor;
-import sun.awt.AppContext;
 import sun.awt.CGraphicsDevice;
 import sun.awt.DisplayChangedListener;
 import sun.awt.ExtendedKeyCodes;
