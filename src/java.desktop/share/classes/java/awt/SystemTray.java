@@ -368,8 +368,6 @@ public class SystemTray {
      * </tbody>
      * </table>
      * <p>
-     * The {@code listener} listens to property changes only in this context.
-     * <p>
      * If {@code listener} is {@code null}, no exception is thrown
      * and no action is performed.
      *
@@ -392,8 +390,6 @@ public class SystemTray {
      * Removes a {@code PropertyChangeListener} from the listener list
      * for a specific property.
      * <p>
-     * The {@code PropertyChangeListener} must be from this context.
-     * <p>
      * If {@code propertyName} or {@code listener} is {@code null} or invalid,
      * no exception is thrown and no action is taken.
      *
@@ -415,8 +411,6 @@ public class SystemTray {
     /**
      * Returns an array of all the listeners that have been associated
      * with the named property.
-     * <p>
-     * Only the listeners in this context are returned.
      *
      * @param propertyName the specified property
      * @return all of the {@code PropertyChangeListener}s associated with
@@ -458,10 +452,9 @@ public class SystemTray {
     private PropertyChangeSupport changeSupport;
 
     /**
-     * Returns the current PropertyChangeSupport instance for the
-     * calling thread's context.
+     * Returns the current PropertyChangeSupport instance
      *
-     * @return this thread's context's PropertyChangeSupport
+     * @return the current PropertyChangeSupport for this {@code SystemTray}
      */
     private synchronized PropertyChangeSupport getCurrentChangeSupport() {
         if (changeSupport == null) {
