@@ -544,14 +544,14 @@ public abstract class DataBuffer {
     void checkIndex(int i) {
         if ((i + offset) >= size) {
             throw new ArrayIndexOutOfBoundsException("Invalid index (offset+i) is " +
-                 "(" + offset + " + " + i + ") which is too large for size : " + size);
+                "(" + offset + " + " + i + ") which is too large for size : " + size);
         }
     }
 
     void checkIndex(int bank, int i) {
       if ((i + offsets[bank]) >= size) {
             throw new ArrayIndexOutOfBoundsException("Invalid index (bankOffset+i) is " +
-                 "(" + offsets[bank] + " + " + i + ") which is too large for size : " + size);
+                "(" + offsets[bank] + " + " + i + ") which is too large for size : " + size);
         }
     }
 }

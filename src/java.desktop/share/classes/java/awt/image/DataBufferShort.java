@@ -69,7 +69,7 @@ public final class DataBufferShort extends DataBuffer
      * specified size.
      *
      * @param size The size of the {@code DataBuffer}.
-     * throw IllegalArgumentException if {@code size} is less than zero.
+     * @throws IllegalArgumentException if {@code size} is less than zero.
      */
     public DataBufferShort(int size) {
         super(STABLE, TYPE_SHORT,size);
@@ -87,8 +87,8 @@ public final class DataBufferShort extends DataBuffer
      *
      * @param size The size of the banks in the {@code DataBuffer}.
      * @param numBanks The number of banks in the {@code DataBuffer}.
-     * throw IllegalArgumentException if {@code size} is less than zero,
-     * or {@code numBanks} is less than one.
+     * @throws IllegalArgumentException if {@code size} is less than zero,
+     *         or {@code numBanks} is less than one.
      */
     public DataBufferShort(int size, int numBanks) {
         super(STABLE, TYPE_SHORT,size,numBanks);
@@ -119,9 +119,9 @@ public final class DataBufferShort extends DataBuffer
      *
      * @param dataArray The short array for the {@code DataBuffer}.
      * @param size The size of the {@code DataBuffer} bank.
-     * throw NullPointerException if {@code dataArray} is {@code null}.
-     * throw IllegalArgumentException if {@code size} is less than zero,
-     * or greater than the length of {@code dataArray}
+     * @throws NullPointerException if {@code dataArray} is {@code null}.
+     * @throws IllegalArgumentException if {@code size} is less than zero,
+     *         or greater than the length of {@code dataArray}
      */
     public DataBufferShort(short[] dataArray, int size) {
         super(UNTRACKABLE, TYPE_SHORT, size);
@@ -151,9 +151,9 @@ public final class DataBufferShort extends DataBuffer
      * @param dataArray The short array for the {@code DataBuffer}.
      * @param size The size of the {@code DataBuffer} bank.
      * @param offset The offset into the {@code dataArray}.
-     * throw NullPointerException if {@code dataArray} is {@code null}.
-     * throw IllegalArgumentException if {@code size} is less than zero,
-     * or {@code (offset + size)} is greater than the length of {@code dataArray}
+     * @throws NullPointerException if {@code dataArray} is {@code null}.
+     * @throws IllegalArgumentException if {@code size} is less than zero,
+     *         or {@code (offset + size)} is greater than the length of {@code dataArray}
      */
     public DataBufferShort(short[] dataArray, int size, int offset) {
         super(UNTRACKABLE, TYPE_SHORT, size, 1, offset);
@@ -182,12 +182,12 @@ public final class DataBufferShort extends DataBuffer
      *
      * @param dataArray The short arrays for the {@code DataBuffer}.
      * @param size The size of the banks in the {@code DataBuffer}.
-     * throw NullPointerException if {@code dataArray} is {@code null}.
-     * throw IllegalArgumentException if {@code size} is less than zero.
-     * throw IllegalArgumentException if {@code dataArray} does not have at least one bank.
-     * throw NullPointerException if any bank of {@code dataArray} is {@code null}.
-     * throw IllegalArgumentException if the length of any bank of {@code dataArray}
-     * is less than {@code size}.
+     * @throws NullPointerException if {@code dataArray} is {@code null}.
+     * @throws IllegalArgumentException if {@code size} is less than zero.
+     * @throws IllegalArgumentException if {@code dataArray} does not have at least one bank.
+     * @throws NullPointerException if any bank of {@code dataArray} is {@code null}.
+     * @throws IllegalArgumentException if the length of any bank of {@code dataArray}
+     *         is less than {@code size}.
      */
     public DataBufferShort(short[][] dataArray, int size) {
         super(UNTRACKABLE, TYPE_SHORT, size, dataArray.length);
@@ -232,14 +232,14 @@ public final class DataBufferShort extends DataBuffer
      * @param dataArray The short arrays for the {@code DataBuffer}.
      * @param size The size of the banks in the {@code DataBuffer}.
      * @param offsets The offsets into each array.
-     * throw IllegalArgumentException if {@code size} is less than zero.
-     * throw NullPointerException if {@code dataArray} is {@code null}.
-     * throw IllegalArgumentException if {@code dataArray} does not have at least one bank.
-     * throw NullPointerException if {@code offsets} is {@code null}.
-     * throw IllegalArgumentException if the lengths of {@code dataArray} and {@code offsets} differ.
-     * throw NullPointerException if any bank of {@code dataArray} is {@code null}.
-     * throw IllegalArgumentException if the length of any bank of {@code dataArray}
-     * is less than ({@code size} + offsets[bankIndex]).
+     * @throws IllegalArgumentException if {@code size} is less than zero.
+     * @throws NullPointerException if {@code dataArray} is {@code null}.
+     * @throws IllegalArgumentException if {@code dataArray} does not have at least one bank.
+     * @throws NullPointerException if {@code offsets} is {@code null}.
+     * @throws IllegalArgumentException if the lengths of {@code dataArray} and {@code offsets} differ.
+     * @throws NullPointerException if any bank of {@code dataArray} is {@code null}.
+     * @throws IllegalArgumentException if the length of any bank of {@code dataArray}
+     *         is less than ({@code size} + offsets[bankIndex]).
      */
     public DataBufferShort(short[][] dataArray, int size, int[] offsets) {
         super(UNTRACKABLE, TYPE_SHORT, size, dataArray.length, offsets);
@@ -340,7 +340,7 @@ public final class DataBufferShort extends DataBuffer
      * @param i The data array element you want to get.
      * @return The requested data array element as an integer.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
+     *         or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      */
@@ -372,7 +372,7 @@ public final class DataBufferShort extends DataBuffer
      * @param i The data array element you want to set.
      * @param val The integer value to which you want to set the specified data array element.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
+     *         or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      * @see #getElem(int)
      * @see #getElem(int, int)
      */

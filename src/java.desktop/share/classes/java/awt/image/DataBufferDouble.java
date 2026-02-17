@@ -62,7 +62,7 @@ public final class DataBufferDouble extends DataBuffer {
      * with a specified size.
      *
      * @param size The number of elements in the {@code DataBuffer}.
-     * throw IllegalArgumentException if {@code size} is less than zero.
+     * @throws IllegalArgumentException if {@code size} is less than zero.
      */
     public DataBufferDouble(int size) {
         super(STABLE, TYPE_DOUBLE, size);
@@ -82,8 +82,8 @@ public final class DataBufferDouble extends DataBuffer {
      * @param size The number of elements in each bank of the
      *        {@code DataBuffer}.
      * @param numBanks The number of banks in the {@code DataBuffer}.
-     * throw IllegalArgumentException if {@code size} is less than zero,
-     * or {@code numBanks} is less than one.
+     * @throws IllegalArgumentException if {@code size} is less than zero,
+     *         or {@code numBanks} is less than one.
      */
     public DataBufferDouble(int size, int numBanks) {
         super(STABLE, TYPE_DOUBLE, size, numBanks);
@@ -115,9 +115,9 @@ public final class DataBufferDouble extends DataBuffer {
      * @param dataArray An array of {@code double}s to be used as the
      *                  first and only bank of this {@code DataBuffer}.
      * @param size The number of elements of the array to be used.
-     * throw NullPointerException if {@code dataArray} is {@code null}.
-     * throw IllegalArgumentException if {@code size} is less than zero,
-     * or greater than the length of {@code dataArray}
+     * @throws NullPointerException if {@code dataArray} is {@code null}.
+     * @throws IllegalArgumentException if {@code size} is less than zero,
+     *         or greater than the length of {@code dataArray}.
      */
     public DataBufferDouble(double[] dataArray, int size) {
         super(UNTRACKABLE, TYPE_DOUBLE, size);
@@ -149,9 +149,9 @@ public final class DataBufferDouble extends DataBuffer {
      * @param size The number of elements of the array to be used.
      * @param offset The offset of the first element of the array
      *               that will be used.
-     * throw NullPointerException if {@code dataArray} is {@code null}.
-     * throw IllegalArgumentException if {@code size} is less than zero,
-     * or {@code (offset + size)} is greater than the length of {@code dataArray}
+     * @throws NullPointerException if {@code dataArray} is {@code null}.
+     * @throws IllegalArgumentException if {@code size} is less than zero,
+     *         or {@code (offset + size)} is greater than the length of {@code dataArray}.
      */
     public DataBufferDouble(double[] dataArray, int size, int offset) {
         super(UNTRACKABLE, TYPE_DOUBLE, size, 1, offset);
@@ -182,12 +182,12 @@ public final class DataBufferDouble extends DataBuffer {
      * @param dataArray An array of arrays of {@code double}s to be
      *        used as the banks of this {@code DataBuffer}.
      * @param size The number of elements of each array to be used.
-     * throw NullPointerException if {@code dataArray} is {@code null}.
-     * throw IllegalArgumentException if {@code size} is less than zero.
-     * throw IllegalArgumentException if {@code dataArray} does not have at least one bank.
-     * throw NullPointerException if any bank of {@code dataArray} is {@code null}.
-     * throw IllegalArgumentException if the length of any bank of {@code dataArray}
-     * is less than {@code size}.
+     * @throws NullPointerException if {@code dataArray} is {@code null}.
+     * @throws IllegalArgumentException if {@code size} is less than zero.
+     * @throws IllegalArgumentException if {@code dataArray} does not have at least one bank.
+     * @throws NullPointerException if any bank of {@code dataArray} is {@code null}.
+     * @throws IllegalArgumentException if the length of any bank of {@code dataArray}
+     *         is less than {@code size}.
      */
     public DataBufferDouble(double[][] dataArray, int size) {
         super(UNTRACKABLE, TYPE_DOUBLE, size, dataArray.length);
@@ -231,14 +231,14 @@ public final class DataBufferDouble extends DataBuffer {
      *        used as the banks of this {@code DataBuffer}.
      * @param size The number of elements of each array to be used.
      * @param offsets An array of integer offsets, one for each bank.
-     * throw IllegalArgumentException if {@code size} is less than zero.
-     * throw NullPointerException if {@code dataArray} is {@code null}.
-     * throw IllegalArgumentException if {@code dataArray} does not have at least one bank.
-     * throw NullPointerException if {@code offsets} is {@code null}.
-     * throw ArrayIndexOutOfBoundsException if the lengths of {@code dataArray} and {@code offsets} differ.
-     * throw NullPointerException if any bank of {@code dataArray} is {@code null}.
-     * throw IllegalArgumentException if the length of any bank of {@code dataArray}
-     * is less than ({@code size} + offsets[bankIndex]).
+     * @throws IllegalArgumentException if {@code size} is less than zero.
+     * @throws NullPointerException if {@code dataArray} is {@code null}.
+     * @throws IllegalArgumentException if {@code dataArray} does not have at least one bank.
+     * @throws NullPointerException if {@code offsets} is {@code null}.
+     * @throws ArrayIndexOutOfBoundsException if the lengths of {@code dataArray} and {@code offsets} differ.
+     * @throws NullPointerException if any bank of {@code dataArray} is {@code null}.
+     * @throws IllegalArgumentException if the length of any bank of {@code dataArray}.
+     *         is less than ({@code size} + offsets[bankIndex]).
      */
     public DataBufferDouble(double[][] dataArray, int size, int[] offsets) {
         super(UNTRACKABLE, TYPE_DOUBLE, size, dataArray.length, offsets);
@@ -342,7 +342,7 @@ public final class DataBufferDouble extends DataBuffer {
      *
      * @return The data entry as an {@code int}.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
+     *         or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      */
@@ -375,7 +375,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @param i The desired data array element.
      * @param val The value to be set.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
+     *         or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      * @see #getElem(int)
      * @see #getElem(int, int)
      */
@@ -410,7 +410,7 @@ public final class DataBufferDouble extends DataBuffer {
      *
      * @return The data entry as a {@code float}.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
+     *         or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      * @see #setElemFloat(int, float)
      * @see #setElemFloat(int, int, float)
      */
@@ -443,7 +443,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @param i The desired data array element.
      * @param val The value to be set.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank
+     *         or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      * @see #getElemFloat(int)
      * @see #getElemFloat(int, int)
      */
@@ -478,7 +478,7 @@ public final class DataBufferDouble extends DataBuffer {
      *
      * @return The data entry as a {@code double}.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
+     *         or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      * @see #setElemDouble(int, double)
      * @see #setElemDouble(int, int, double)
      */
@@ -511,7 +511,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @param i The desired data array element.
      * @param val The value to be set.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank
+     *         or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      * @see #getElemDouble(int)
      * @see #getElemDouble(int, int)
      */
