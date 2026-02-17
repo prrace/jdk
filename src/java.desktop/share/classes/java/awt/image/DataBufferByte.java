@@ -346,7 +346,7 @@ public final class DataBufferByte extends DataBuffer
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
+     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      */
     public int getElem(int bank, int i) {
         checkIndex(bank, i);
@@ -376,7 +376,7 @@ public final class DataBufferByte extends DataBuffer
      * @param i The data array element you want to set.
      * @param val The integer value to which you want to set the specified data array element.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
+     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      * @see #getElem(int)
      * @see #getElem(int, int)
      */

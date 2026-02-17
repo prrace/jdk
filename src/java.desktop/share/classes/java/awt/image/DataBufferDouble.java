@@ -342,7 +342,7 @@ public final class DataBufferDouble extends DataBuffer {
      *
      * @return The data entry as an {@code int}.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
+     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      */
@@ -375,7 +375,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @param i The desired data array element.
      * @param val The value to be set.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
+     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      * @see #getElem(int)
      * @see #getElem(int, int)
      */
@@ -410,7 +410,7 @@ public final class DataBufferDouble extends DataBuffer {
      *
      * @return The data entry as a {@code float}.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
+     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      * @see #setElemFloat(int, float)
      * @see #setElemFloat(int, int, float)
      */
@@ -443,7 +443,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @param i The desired data array element.
      * @param val The value to be set.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank
+     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank
      * @see #getElemFloat(int)
      * @see #getElemFloat(int, int)
      */
@@ -478,7 +478,7 @@ public final class DataBufferDouble extends DataBuffer {
      *
      * @return The data entry as a {@code double}.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
+     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank.
      * @see #setElemDouble(int, double)
      * @see #setElemDouble(int, int, double)
      */
@@ -511,7 +511,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @param i The desired data array element.
      * @param val The value to be set.
      * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
-     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank
+     * or {@code (i + getOffsets()[bank])} is not a valid index into the bank
      * @see #getElemDouble(int)
      * @see #getElemDouble(int, int)
      */
