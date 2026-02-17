@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2022, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2026, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -70,9 +70,13 @@ public final class DataBufferInt extends DataBuffer
      * and the specified size.
      *
      * @param size The size of the {@code DataBuffer}.
+     * throw IllegalArgumentException if {@code size} is less than zero
      */
     public DataBufferInt(int size) {
         super(STABLE, TYPE_INT, size);
+        if (size < 0) {
+            throw new IllegalArgumentException("Negative size");
+        }
         data = new int[size];
         bankdata = new int[1][];
         bankdata[0] = data;
@@ -84,9 +88,17 @@ public final class DataBufferInt extends DataBuffer
      *
      * @param size The size of the banks in the {@code DataBuffer}.
      * @param numBanks The number of banks in the {@code DataBuffer}.
+     * throw IllegalArgumentException if {@code size} is less than zero,
+     * or {@code numBanks} is less than one
      */
     public DataBufferInt(int size, int numBanks) {
         super(STABLE, TYPE_INT, size, numBanks);
+        if (size < 0) {
+            throw new IllegalArgumentException("Negative size");
+        }
+        if (numBanks < 1) {
+            throw new IllegalArgumentException("Must have at least one bank");
+        }
         bankdata = new int[numBanks][];
         for (int i= 0; i < numBanks; i++) {
             bankdata[i] = new int[size];
@@ -108,9 +120,18 @@ public final class DataBufferInt extends DataBuffer
      *
      * @param dataArray The integer array for the {@code DataBuffer}.
      * @param size The size of the {@code DataBuffer} bank.
+     * throw NullPointerException if {@code dataArray} is {@code null}.
+     * throw IllegalArgumentException if {@code size} is less than zero,
+     * or greater than the length of {@code dataArray}
      */
     public DataBufferInt(int[] dataArray, int size) {
         super(UNTRACKABLE, TYPE_INT, size);
+        if (dataArray == null) {
+            throw new NullPointerException("Null dataArray");
+        }
+        if (size < 0 || size > dataArray.length) {
+            throw new IllegalArgumentException("Bad size : " + size);
+        }
         data = dataArray;
         bankdata = new int[1][];
         bankdata[0] = data;
@@ -131,9 +152,19 @@ public final class DataBufferInt extends DataBuffer
      * @param dataArray The integer array for the {@code DataBuffer}.
      * @param size The size of the {@code DataBuffer} bank.
      * @param offset The offset into the {@code dataArray}.
+     * throw NullPointerException if {@code dataArray} is {@code null}.
+     * throw IllegalArgumentException if {@code size} is less than zero,
+     * or {@code (offset + size)} is greater than the length of {@code dataArray}
      */
     public DataBufferInt(int[] dataArray, int size, int offset) {
         super(UNTRACKABLE, TYPE_INT, size, 1, offset);
+        if (dataArray == null) {
+            throw new NullPointerException("Null dataArray");
+        }
+        if (size < 0 || (size + offset) > dataArray.length) {
+            throw new IllegalArgumentException("Bad size/offset. Size = " + size +
+                " offset = " + offset + " bank length = " + dataArray.length);
+        }
         data = dataArray;
         bankdata = new int[1][];
         bankdata[0] = data;
@@ -152,9 +183,34 @@ public final class DataBufferInt extends DataBuffer
      *
      * @param dataArray The integer arrays for the {@code DataBuffer}.
      * @param size The size of the banks in the {@code DataBuffer}.
+     * throw NullPointerException if {@code dataArray} is {@code null}.
+     * throw IllegalArgumentException if {@code size} is less than zero.
+     * throw IllegalArgumentException if {@code dataArray} does not have at least one bank.
+     * throw NullPointerException if any bank of {@code dataArray} is {@code null}.
+     * throw IllegalArgumentException if the length of any bank of {@code dataArray}
+     * is less than {@code size}.
      */
     public DataBufferInt(int[][] dataArray, int size) {
         super(UNTRACKABLE, TYPE_INT, size, dataArray.length);
+        if (size < 0) {
+            throw new IllegalArgumentException("Size is negative");
+        }
+        if (dataArray == null) {
+            throw new NullPointerException("Null dataArray");
+        }
+        if (dataArray.length == 0) {
+            throw new IllegalArgumentException("Must have at least one bank");
+        }
+        for (int b = 0; b < dataArray.length; b++) {
+            if (dataArray[b] == null) {
+                throw new NullPointerException("Null bank at index " + b);
+            }
+            if (dataArray[b].length < size) {
+                throw new IllegalArgumentException("Bank too small for size." +
+                    " Bank index = " + b + " bank length = " + dataArray[b].length +
+                    " size = " + size);
+            }
+        }
         bankdata = dataArray.clone();
         data = bankdata[0];
     }
@@ -177,9 +233,42 @@ public final class DataBufferInt extends DataBuffer
      * @param dataArray The integer arrays for the {@code DataBuffer}.
      * @param size The size of the banks in the {@code DataBuffer}.
      * @param offsets The offsets into each array.
+     * throw IllegalArgumentException if {@code size} is less than zero.
+     * throw NullPointerException if {@code dataArray} is {@code null}.
+     * throw IllegalArgumentException if {@code dataArray} does not have at least one bank.
+     * throw NullPointerException if {@code offsets} is {@code null}.
+     * throw ArrayIndexOutOfBoundsException if the lengths of {@code dataArray} and {@code offsets} differ.
+     * throw NullPointerException if any bank of {@code dataArray} is {@code null}.
+     * throw IllegalArgumentException if the length of any bank of {@code dataArray}
+     * is less than ({@code size} + offsets[bankIndex]).
      */
     public DataBufferInt(int[][] dataArray, int size, int[] offsets) {
         super(UNTRACKABLE, TYPE_INT, size, dataArray.length, offsets);
+        if (size < 0) {
+            throw new IllegalArgumentException("Size is negative");
+        }
+        if (dataArray == null) {
+            throw new NullPointerException("Null dataArray");
+        }
+        if (dataArray.length == 0) {
+            throw new IllegalArgumentException("Must have at least one bank");
+        }
+        if (offsets == null) {
+            throw new NullPointerException("Null offsets");
+        }
+        if (dataArray.length > offsets.length) {
+            throw new IllegalArgumentException("Must be an offsets entry for every bank");
+        }
+        for (int b = 0; b < dataArray.length; b++) {
+            if (dataArray[b] == null) {
+                throw new NullPointerException("Null bank");
+            }
+            if (dataArray[b].length < (size + offsets[b])) {
+                throw new IllegalArgumentException("Bank too small for size + offset." +
+                    " Bank index = " + b + " bank length = " + dataArray[b].length +
+                    " size = " + size + " bank offset = " + offsets[b]);
+            }
+        }
         bankdata = dataArray.clone();
         data = bankdata[0];
     }
@@ -209,6 +298,7 @@ public final class DataBufferInt extends DataBuffer
      *
      * @param bank The bank whose data array you want to get.
      * @return The data array for the specified bank.
+     * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index.
      */
     public int[] getData(int bank) {
         theTrackable.setUntrackable();
@@ -235,10 +325,12 @@ public final class DataBufferInt extends DataBuffer
      *
      * @param i The data array element you want to get.
      * @return The requested data array element as an integer.
+     * @throws ArrayIndexOutOfBoundsException if {@code (i + getOffset())} is not a valid index.
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      */
     public int getElem(int i) {
+        checkIndex(i);
         return data[i+offset];
     }
 
@@ -248,10 +340,13 @@ public final class DataBufferInt extends DataBuffer
      * @param bank The bank from which you want to get a data array element.
      * @param i The data array element you want to get.
      * @return The requested data array element as an integer.
+     * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
+     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      */
     public int getElem(int bank, int i) {
+        checkIndex(bank, i);
         return bankdata[bank][i+offsets[bank]];
     }
 
@@ -261,10 +356,12 @@ public final class DataBufferInt extends DataBuffer
      *
      * @param i The data array element you want to set.
      * @param val The integer value to which you want to set the data array element.
+     * @throws ArrayIndexOutOfBoundsException if {@code (i + getOffset())} is not a valid index.
      * @see #getElem(int)
      * @see #getElem(int, int)
      */
     public void setElem(int i, int val) {
+        checkIndex(i);
         data[i+offset] = val;
         theTrackable.markDirty();
     }
@@ -275,10 +372,13 @@ public final class DataBufferInt extends DataBuffer
      * @param bank The bank in which you want to set the data array element.
      * @param i The data array element you want to set.
      * @param val The integer value to which you want to set the specified data array element.
+     * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
+     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
      * @see #getElem(int)
      * @see #getElem(int, int)
      */
     public void setElem(int bank, int i, int val) {
+        checkIndex(bank, i);
         bankdata[bank][i+offsets[bank]] = val;
         theTrackable.markDirty();
     }

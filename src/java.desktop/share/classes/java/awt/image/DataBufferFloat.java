@@ -62,9 +62,13 @@ public final class DataBufferFloat extends DataBuffer {
      * with a specified size.
      *
      * @param size The number of elements in the DataBuffer.
+     * throw IllegalArgumentException if {@code size} is less than zero.
      */
     public DataBufferFloat(int size) {
         super(STABLE, TYPE_FLOAT, size);
+        if (size < 0) {
+            throw new IllegalArgumentException("Negative size");
+        }
         data = new float[size];
         bankdata = new float[1][];
         bankdata[0] = data;
@@ -79,9 +83,17 @@ public final class DataBufferFloat extends DataBuffer {
      * {@code DataBuffer}.
      * @param numBanks The number of banks in the
      *        {@code DataBuffer}.
+     * throw IllegalArgumentException if {@code size} is less than zero,
+     * or {@code numBanks} is less than one.
      */
     public DataBufferFloat(int size, int numBanks) {
         super(STABLE, TYPE_FLOAT, size, numBanks);
+        if (size < 0) {
+            throw new IllegalArgumentException("Negative size");
+        }
+        if (numBanks < 1) {
+            throw new IllegalArgumentException("Must have at least one bank");
+        }
         bankdata = new float[numBanks][];
         for (int i= 0; i < numBanks; i++) {
             bankdata[i] = new float[size];
@@ -104,9 +116,18 @@ public final class DataBufferFloat extends DataBuffer {
      * @param dataArray An array of {@code float}s to be used as the
      *                  first and only bank of this {@code DataBuffer}.
      * @param size The number of elements of the array to be used.
+     * throw NullPointerException if {@code dataArray} is {@code null}.
+     * throw IllegalArgumentException if {@code size} is less than zero,
+     * or greater than the length of {@code dataArray}
      */
     public DataBufferFloat(float[] dataArray, int size) {
         super(UNTRACKABLE, TYPE_FLOAT, size);
+        if (dataArray == null) {
+            throw new NullPointerException("Null dataArray");
+        }
+        if (size < 0 || size > dataArray.length) {
+            throw new IllegalArgumentException("Bad size : " + size);
+        }
         data = dataArray;
         bankdata = new float[1][];
         bankdata[0] = data;
@@ -130,9 +151,19 @@ public final class DataBufferFloat extends DataBuffer {
      * @param size The number of elements of the array to be used.
      * @param offset The offset of the first element of the array
      *               that will be used.
+     * throw NullPointerException if {@code dataArray} is {@code null}.
+     * throw IllegalArgumentException if {@code size} is less than zero,
+     * or {@code (offset + size)} is greater than the length of {@code dataArray}
      */
     public DataBufferFloat(float[] dataArray, int size, int offset) {
         super(UNTRACKABLE, TYPE_FLOAT, size, 1, offset);
+        if (dataArray == null) {
+            throw new NullPointerException("Null dataArray");
+        }
+        if (size < 0 || (size + offset) > dataArray.length) {
+            throw new IllegalArgumentException("Bad size/offset. Size = " + size +
+                " offset = " + offset + " bank length = " + dataArray.length);
+        }
         data = dataArray;
         bankdata = new float[1][];
         bankdata[0] = data;
@@ -153,9 +184,34 @@ public final class DataBufferFloat extends DataBuffer {
      * @param dataArray An array of arrays of {@code float}s to be
      *                  used as the banks of this {@code DataBuffer}.
      * @param size The number of elements of each array to be used.
+     * throw NullPointerException if {@code dataArray} is {@code null}.
+     * throw IllegalArgumentException if {@code size} is less than zero.
+     * throw IllegalArgumentException if {@code dataArray} does not have at least one bank.
+     * throw NullPointerException if any bank of {@code dataArray} is {@code null}.
+     * throw IllegalArgumentException if the length of any bank of {@code dataArray}
+     * is less than {@code size}.
      */
     public DataBufferFloat(float[][] dataArray, int size) {
         super(UNTRACKABLE, TYPE_FLOAT, size, dataArray.length);
+        if (size < 0) {
+            throw new IllegalArgumentException("Size is negative");
+        }
+        if (dataArray == null) {
+            throw new NullPointerException("Null dataArray");
+        }
+        if (dataArray.length == 0) {
+            throw new IllegalArgumentException("Must have at least one bank");
+        }
+        for (int b = 0; b < dataArray.length; b++) {
+            if (dataArray[b] == null) {
+                throw new NullPointerException("Null bank at index " + b);
+            }
+            if (dataArray[b].length < size) {
+                throw new IllegalArgumentException("Bank too small for size." +
+                    " Bank index = " + b + " bank length = " + dataArray[b].length +
+                    " size = " + size);
+            }
+        }
         bankdata = dataArray.clone();
         data = bankdata[0];
     }
@@ -177,9 +233,42 @@ public final class DataBufferFloat extends DataBuffer {
      *                  used as the banks of this {@code DataBuffer}.
      * @param size The number of elements of each array to be used.
      * @param offsets An array of integer offsets, one for each bank.
+     * throw IllegalArgumentException if {@code size} is less than zero.
+     * throw NullPointerException if {@code dataArray} is {@code null}.
+     * throw IllegalArgumentException if {@code dataArray} does not have at least one bank.
+     * throw NullPointerException if {@code offsets} is {@code null}.
+     * throw ArrayIndexOutOfBoundsException if the lengths of {@code dataArray} and {@code offsets} differ.
+     * throw NullPointerException if any bank of {@code dataArray} is {@code null}.
+     * throw IllegalArgumentException if the length of any bank of {@code dataArray}
+     * is less than ({@code size} + offsets[bankIndex]).
      */
     public DataBufferFloat(float[][] dataArray, int size, int[] offsets) {
         super(UNTRACKABLE, TYPE_FLOAT, size,dataArray.length, offsets);
+        if (size < 0) {
+            throw new IllegalArgumentException("Size is negative");
+        }
+        if (dataArray == null) {
+            throw new NullPointerException("Null dataArray");
+        }
+        if (dataArray.length == 0) {
+            throw new IllegalArgumentException("Must have at least one bank");
+        }
+        if (offsets == null) {
+            throw new NullPointerException("Null offsets");
+        }
+        if (dataArray.length > offsets.length) {
+            throw new IllegalArgumentException("Must be an offsets entry for every bank");
+        }
+        for (int b = 0; b < dataArray.length; b++) {
+            if (dataArray[b] == null) {
+                throw new NullPointerException("Null bank");
+            }
+            if (dataArray[b].length < (size + offsets[b])) {
+                throw new IllegalArgumentException("Bank too small for size + offset." +
+                    " Bank index = " + b + " bank length = " + dataArray[b].length +
+                    " size = " + size + " bank offset = " + offsets[b]);
+            }
+        }
         bankdata = dataArray.clone();
         data = bankdata[0];
     }
@@ -209,6 +298,7 @@ public final class DataBufferFloat extends DataBuffer {
      *
      * @param bank the data array
      * @return the data array specified by {@code bank}.
+     * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index.
      */
     public float[] getData(int bank) {
         theTrackable.setUntrackable();
@@ -237,10 +327,12 @@ public final class DataBufferFloat extends DataBuffer {
      * @param i The desired data array element.
      *
      * @return The data entry as an {@code int}.
+     * @throws ArrayIndexOutOfBoundsException if {@code (i + getOffset())} is not a valid index.
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      */
     public int getElem(int i) {
+        checkIndex(i);
         return (int)(data[i+offset]);
     }
 
@@ -252,10 +344,13 @@ public final class DataBufferFloat extends DataBuffer {
      * @param i The desired data array element.
      *
      * @return The data entry as an {@code int}.
+     * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
+     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      */
     public int getElem(int bank, int i) {
+        checkIndex(i);
         return (int)(bankdata[bank][i+offsets[bank]]);
     }
 
@@ -265,10 +360,12 @@ public final class DataBufferFloat extends DataBuffer {
      *
      * @param i The desired data array element.
      * @param val The value to be set.
+     * @throws ArrayIndexOutOfBoundsException if {@code (i + getOffset())} is not a valid index.
      * @see #getElem(int)
      * @see #getElem(int, int)
      */
     public void setElem(int i, int val) {
+        checkIndex(i);
         data[i+offset] = (float)val;
         theTrackable.markDirty();
     }
@@ -280,10 +377,13 @@ public final class DataBufferFloat extends DataBuffer {
      * @param bank The bank number.
      * @param i The desired data array element.
      * @param val The value to be set.
+     * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
+     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
      * @see #getElem(int)
      * @see #getElem(int, int)
      */
     public void setElem(int bank, int i, int val) {
+        checkIndex(bank, i);
         bankdata[bank][i+offsets[bank]] = (float)val;
         theTrackable.markDirty();
     }
@@ -295,10 +395,12 @@ public final class DataBufferFloat extends DataBuffer {
      * @param i The desired data array element.
      *
      * @return The data entry as a {@code float}.
+     * @throws ArrayIndexOutOfBoundsException if {@code (i + getOffset())} is not a valid index.
      * @see #setElemFloat(int, float)
      * @see #setElemFloat(int, int, float)
      */
     public float getElemFloat(int i) {
+        checkIndex(i);
         return data[i+offset];
     }
 
@@ -310,10 +412,13 @@ public final class DataBufferFloat extends DataBuffer {
      * @param i The desired data array element.
      *
      * @return The data entry as a {@code float}.
+     * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
+     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
      * @see #setElemFloat(int, float)
      * @see #setElemFloat(int, int, float)
      */
     public float getElemFloat(int bank, int i) {
+        checkIndex(bank, i);
         return bankdata[bank][i+offsets[bank]];
     }
 
@@ -323,10 +428,12 @@ public final class DataBufferFloat extends DataBuffer {
      *
      * @param i The desired data array element.
      * @param val The value to be set.
+     * @throws ArrayIndexOutOfBoundsException if {@code (i + getOffset())} is not a valid index.
      * @see #getElemFloat(int)
      * @see #getElemFloat(int, int)
      */
     public void setElemFloat(int i, float val) {
+        checkIndex(i);
         data[i+offset] = val;
         theTrackable.markDirty();
     }
@@ -338,10 +445,13 @@ public final class DataBufferFloat extends DataBuffer {
      * @param bank The bank number.
      * @param i The desired data array element.
      * @param val The value to be set.
+     * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
+     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
      * @see #getElemFloat(int)
      * @see #getElemFloat(int, int)
      */
     public void setElemFloat(int bank, int i, float val) {
+        checkIndex(bank, i);
         bankdata[bank][i+offsets[bank]] = val;
         theTrackable.markDirty();
     }
@@ -353,10 +463,12 @@ public final class DataBufferFloat extends DataBuffer {
      * @param i The desired data array element.
      *
      * @return The data entry as a {@code double}.
+     * @throws ArrayIndexOutOfBoundsException if {@code (i + getOffset())} is not a valid index.
      * @see #setElemDouble(int, double)
      * @see #setElemDouble(int, int, double)
      */
     public double getElemDouble(int i) {
+        checkIndex(i);
         return (double)data[i+offset];
     }
 
@@ -368,10 +480,13 @@ public final class DataBufferFloat extends DataBuffer {
      * @param i The desired data array element.
      *
      * @return The data entry as a {@code double}.
+     * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
+     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
      * @see #setElemDouble(int, double)
      * @see #setElemDouble(int, int, double)
      */
     public double getElemDouble(int bank, int i) {
+        checkIndex(bank, i);
         return (double)bankdata[bank][i+offsets[bank]];
     }
 
@@ -381,10 +496,12 @@ public final class DataBufferFloat extends DataBuffer {
      *
      * @param i The desired data array element.
      * @param val The value to be set.
+     * @throws ArrayIndexOutOfBoundsException if {@code (i + getOffset())} is not a valid index.
      * @see #getElemDouble(int)
      * @see #getElemDouble(int, int)
      */
     public void setElemDouble(int i, double val) {
+        checkIndex(i);
         data[i+offset] = (float)val;
         theTrackable.markDirty();
     }
@@ -396,10 +513,13 @@ public final class DataBufferFloat extends DataBuffer {
      * @param bank The bank number.
      * @param i The desired data array element.
      * @param val The value to be set.
+     * @throws ArrayIndexOutOfBoundsException if {@code bank} is not a valid bank index,
+     * or {@code (i + getOffsets(bank)}} is not a valid index into the bank.
      * @see #getElemDouble(int)
      * @see #getElemDouble(int, int)
      */
     public void setElemDouble(int bank, int i, double val) {
+        checkIndex(bank, i);
         bankdata[bank][i+offsets[bank]] = (float)val;
         theTrackable.markDirty();
     }
