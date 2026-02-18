@@ -338,7 +338,7 @@ public final class XEmbedCanvasPeer extends XCanvasPeer implements WindowFocusLi
 //             Rectangle my_bounds = getBounds();
 //             setBounds(my_bounds.x, my_bounds.y, bounds.width, bounds.height, SET_BOUNDS);
         }
-        XToolkit.postEvent(XToolkit.targetToAppContext(target), new ComponentEvent(target, ComponentEvent.COMPONENT_RESIZED));
+        XToolkit.postEvent(new ComponentEvent(target, ComponentEvent.COMPONENT_RESIZED));
     }
 
     void focusNext() {
@@ -735,9 +735,7 @@ public final class XEmbedCanvasPeer extends XCanvasPeer implements WindowFocusLi
             xembedLog.finest("     Drop target=" + target.getDropTarget());
         }
         if (target.getDropTarget() instanceof XEmbedDropTarget) {
-            AppContext appContext = XToolkit.targetToAppContext(getTarget());
-            XDropTargetContextPeer peer =
-                XDropTargetContextPeer.getPeer(appContext);
+            XDropTargetContextPeer peer = XDropTargetContextPeer.getPeer();
             peer.forwardEventToEmbedded(xembed.handle, ctxt, eventID);
             return true;
         } else {
