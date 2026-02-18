@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001, 2025, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2026, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -41,8 +41,6 @@ import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
-
-import sun.awt.AppContext;
 
 /**
  * Wrapper for a value from the desktop. The value is lazily looked up, and
@@ -91,20 +89,20 @@ public class DesktopProperty implements UIDefaults.ActiveValue {
     }
 
 
+   private static boolean updatePending;
+
     /**
      * Sets whether or not an updateUI call is pending.
      */
     private static synchronized void setUpdatePending(boolean update) {
-        AppContext.getAppContext()
-                .put(DESKTOP_PROPERTY_UPDATE_PENDING_KEY, update);
+        updatePending = update;
     }
 
     /**
      * Returns true if a UI update is pending.
      */
     private static synchronized boolean isUpdatePending() {
-        return Boolean.TRUE.equals(AppContext.getAppContext()
-                .get(DESKTOP_PROPERTY_UPDATE_PENDING_KEY));
+        return updatePending;
     }
 
     /**
