@@ -153,6 +153,8 @@ public class JPopupMenu extends JComponent implements Accessible,MenuElement {
     private static final boolean VERBOSE = false; // show reuse hits/misses
     private static final boolean DEBUG =   false;  // show bad params, misc.
 
+    private static boolean defaultLWPopupEnabled = true;
+
     /**
      *  Sets the default value of the <code>lightWeightPopupEnabled</code>
      *  property.
@@ -163,8 +165,7 @@ public class JPopupMenu extends JComponent implements Accessible,MenuElement {
      *  @see #setLightWeightPopupEnabled
      */
     public static void setDefaultLightWeightPopupEnabled(boolean aFlag) {
-        SwingUtilities.appContextPut(defaultLWPopupEnabledKey,
-                                     Boolean.valueOf(aFlag));
+        defaultLWPopupEnabled = aFlag;
     }
 
     /**
@@ -177,14 +178,7 @@ public class JPopupMenu extends JComponent implements Accessible,MenuElement {
      *  @see #setDefaultLightWeightPopupEnabled
      */
     public static boolean getDefaultLightWeightPopupEnabled() {
-        Boolean b = (Boolean)
-            SwingUtilities.appContextGet(defaultLWPopupEnabledKey);
-        if (b == null) {
-            SwingUtilities.appContextPut(defaultLWPopupEnabledKey,
-                                         Boolean.TRUE);
-            return true;
-        }
-        return b.booleanValue();
+        return defaultLWPopupEnabled;
     }
 
     /**
