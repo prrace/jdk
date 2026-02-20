@@ -73,9 +73,7 @@ public final class DataBufferShort extends DataBuffer
      */
     public DataBufferShort(int size) {
         super(STABLE, TYPE_SHORT,size);
-        if (size <= 0) {
-            throw new IllegalArgumentException("Size must be > 0");
-        }
+        checkSize(size);
         data = new short[size];
         bankdata = new short[1][];
         bankdata[0] = data;
@@ -92,12 +90,8 @@ public final class DataBufferShort extends DataBuffer
      */
     public DataBufferShort(int size, int numBanks) {
         super(STABLE, TYPE_SHORT,size,numBanks);
-        if (size <= 0) {
-            throw new IllegalArgumentException("Size must be > 0");
-        }
-        if (numBanks < 1) {
-            throw new IllegalArgumentException("Must have at least one bank");
-        }
+        checkSize(size);
+        checkNumBanks(numBanks);
         bankdata = new short[numBanks][];
         for (int i= 0; i < numBanks; i++) {
             bankdata[i] = new short[size];
@@ -125,12 +119,8 @@ public final class DataBufferShort extends DataBuffer
      */
     public DataBufferShort(short[] dataArray, int size) {
         super(UNTRACKABLE, TYPE_SHORT, size);
-        if (dataArray == null) {
-            throw new NullPointerException("Null dataArray");
-        }
-        if (size <= 0 || size > dataArray.length) {
-            throw new IllegalArgumentException("Bad size : " + size);
-        }
+        checkNullArray(dataArray, "datArray");
+        checkArraySize(size, dataArray.length);
         data = dataArray;
         bankdata = new short[1][];
         bankdata[0] = data;
@@ -157,13 +147,8 @@ public final class DataBufferShort extends DataBuffer
      */
     public DataBufferShort(short[] dataArray, int size, int offset) {
         super(UNTRACKABLE, TYPE_SHORT, size, 1, offset);
-        if (dataArray == null) {
-            throw new NullPointerException("Null dataArray");
-        }
-        if (size <= 0 || (size + offset) > dataArray.length) {
-            throw new IllegalArgumentException("Bad size/offset. Size = " + size +
-                " offset = " + offset + " bank length = " + dataArray.length);
-        }
+        checkNullArray(dataArray, "datArray");
+        checkArraySize(size, offset, dataArray.length);
         data = dataArray;
         bankdata = new short[1][];
         bankdata[0] = data;
@@ -191,24 +176,12 @@ public final class DataBufferShort extends DataBuffer
      */
     public DataBufferShort(short[][] dataArray, int size) {
         super(UNTRACKABLE, TYPE_SHORT, size, dataArray.length);
-        if (size <= 0) {
-            throw new IllegalArgumentException("Size must be > 0");
-        }
-        if (dataArray == null) {
-            throw new NullPointerException("Null dataArray");
-        }
-        if (dataArray.length == 0) {
-            throw new IllegalArgumentException("Must have at least one bank");
-        }
+        checkSize(size);
+        checkNullArray(dataArray, "dataArray");
+        checkNumBanks(dataArray.length);
         for (int b = 0; b < dataArray.length; b++) {
-            if (dataArray[b] == null) {
-                throw new NullPointerException("Null bank at index " + b);
-            }
-            if (dataArray[b].length < size) {
-                throw new IllegalArgumentException("Bank too small for size." +
-                    " Bank index = " + b + " bank length = " + dataArray[b].length +
-                    " size = " + size);
-            }
+            checkNullArray(dataArray, "bank");
+            checkBankSize(b, size, 0, dataArray[b].length);
         }
         bankdata = dataArray.clone();
         data = bankdata[0];
@@ -243,30 +216,16 @@ public final class DataBufferShort extends DataBuffer
      */
     public DataBufferShort(short[][] dataArray, int size, int[] offsets) {
         super(UNTRACKABLE, TYPE_SHORT, size, dataArray.length, offsets);
-        if (size <= 0) {
-            throw new IllegalArgumentException("Size must be > 0");
-        }
-        if (dataArray == null) {
-            throw new NullPointerException("Null dataArray");
-        }
-        if (dataArray.length == 0) {
-            throw new IllegalArgumentException("Must have at least one bank");
-        }
-        if (offsets == null) {
-            throw new NullPointerException("Null offsets");
-        }
-        if (dataArray.length > offsets.length) {
-            throw new IllegalArgumentException("Must be an offsets entry for every bank");
+        checkSize(size);
+        checkNullArray(dataArray, "dataArray");
+        checkNumBanks(dataArray.length);
+        checkNullArray(offsets, "offsets");
+        if (dataArray.length != offsets.length) {
+            throw new ArrayIndexOutOfBoundsException("Must be an offsets entry for every bank");
         }
         for (int b = 0; b < dataArray.length; b++) {
-            if (dataArray[b] == null) {
-                throw new NullPointerException("Null bank");
-            }
-            if (dataArray[b].length < (size + offsets[b])) {
-                throw new IllegalArgumentException("Bank too small for size + offset." +
-                    " Bank index = " + b + " bank length = " + dataArray[b].length +
-                    " size = " + size + " bank offset = " + offsets[b]);
-            }
+            checkNullArray(dataArray[b], "bank");
+            checkBankSize(b, size, offsets[b], dataArray[b].length);
         }
         bankdata = dataArray.clone();
         data = bankdata[0];

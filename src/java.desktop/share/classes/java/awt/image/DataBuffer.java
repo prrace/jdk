@@ -541,17 +541,59 @@ public abstract class DataBuffer {
         });
     }
 
-    void checkIndex(int i) {
+    final void checkIndex(int i) {
         if ((i + offset) >= size) {
             throw new ArrayIndexOutOfBoundsException("Invalid index (offset+i) is " +
                 "(" + offset + " + " + i + ") which is too large for size : " + size);
         }
     }
 
-    void checkIndex(int bank, int i) {
-      if ((i + offsets[bank]) >= size) {
-          throw new ArrayIndexOutOfBoundsException("Invalid index (bankOffset+i) is " +
-              "(" + offsets[bank] + " + " + i + ") which is too large for size : " + size);
+    final void checkIndex(int bank, int i) {
+        if ((i + offsets[bank]) >= size) {
+            throw new ArrayIndexOutOfBoundsException("Invalid index (bankOffset+i) is " +
+                "(" + offsets[bank] + " + " + i + ") which is too large for size : " + size);
+        }
+    }
+
+    // Checks used by subclass constructors.
+    static final void checkSize(int size) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Size must be > 0");
+        }
+    }
+
+    static final void checkNumBanks(int numBanks) {
+        if (numBanks <= 0) {
+            throw new IllegalArgumentException("Must have at least one bank");
+        }
+    }
+
+    static final void checkNullArray(Object array, String name) {
+        if (array == null) {
+            throw new NullPointerException("Null " + name);
+        }
+    }
+
+    static final void checkArraySize(int size, int arrayLen) {
+        if (size <= 0 || size > arrayLen) {
+            throw new IllegalArgumentException("Bad size : " + size);
+        }
+    }
+
+    static final void checkArraySize(int size, int offset, int arrayLen) {
+        if (size <= 0 || (size + offset) > arrayLen  ||
+            (offset > 0) && ((size + offset) < size)) {
+            throw new IllegalArgumentException("Bad size/offset. Size = " + size +
+                " offset = " + offset + " bank length = " + arrayLen);
+        }
+    }
+
+    static final void checkBankSize(int bank, int size, int offset, int arrayLen) {
+        if ((arrayLen < (size + offset)) || 
+             ((offset > 0) && ((size + offset) < size))) {
+            throw new IllegalArgumentException("Bank too small for size + offset." +
+                " Bank index = " + bank + " bank length = " + arrayLen +
+                " size = " + size + " bank offset = " + offset);
         }
     }
 }
