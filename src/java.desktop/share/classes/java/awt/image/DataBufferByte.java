@@ -92,8 +92,8 @@ public final class DataBufferByte extends DataBuffer
      */
     public DataBufferByte(int size, int numBanks) {
         super(STABLE, TYPE_BYTE, size, numBanks);
-	checkSize(size);
-	checkNumBanks(numBanks);
+        checkSize(size);
+        checkNumBanks(numBanks);
         bankdata = new byte[numBanks][];
         for (int i= 0; i < numBanks; i++) {
             bankdata[i] = new byte[size];

@@ -178,7 +178,7 @@ public final class DataBufferInt extends DataBuffer
     public DataBufferInt(int[][] dataArray, int size) {
         super(UNTRACKABLE, TYPE_INT, size, dataArray.length);
         checkSize(size);
-	checkNullArray(dataArray, "dataArray");
+        checkNullArray(dataArray, "dataArray");
         checkNumBanks(dataArray.length);
         for (int b = 0; b < dataArray.length; b++) {
             if (dataArray[b] == null) {

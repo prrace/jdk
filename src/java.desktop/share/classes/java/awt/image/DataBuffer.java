@@ -589,7 +589,7 @@ public abstract class DataBuffer {
     }
 
     static final void checkBankSize(int bank, int size, int offset, int arrayLen) {
-        if ((arrayLen < (size + offset)) || 
+        if ((arrayLen < (size + offset)) ||
              ((offset > 0) && ((size + offset) < size))) {
             throw new IllegalArgumentException("Bank too small for size + offset." +
                 " Bank index = " + bank + " bank length = " + arrayLen +
