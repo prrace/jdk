@@ -70,12 +70,12 @@ public final class DataBufferInt extends DataBuffer
      * and the specified size.
      *
      * @param size The size of the {@code DataBuffer}.
-     * @throws IllegalArgumentException if {@code size} is less than zero.
+     * @throws IllegalArgumentException if {@code size} is less than or equal to zero.
      */
     public DataBufferInt(int size) {
         super(STABLE, TYPE_INT, size);
-        if (size < 0) {
-            throw new IllegalArgumentException("Negative size");
+        if (size <= 0) {
+            throw new IllegalArgumentException("Size must be > 0");
         }
         data = new int[size];
         bankdata = new int[1][];
@@ -88,13 +88,13 @@ public final class DataBufferInt extends DataBuffer
      *
      * @param size The size of the banks in the {@code DataBuffer}.
      * @param numBanks The number of banks in the {@code DataBuffer}.
-     * @throws IllegalArgumentException if {@code size} is less than zero,
+     * @throws IllegalArgumentException if {@code size} is less than or equal to zero,
      *         or {@code numBanks} is less than one.
      */
     public DataBufferInt(int size, int numBanks) {
         super(STABLE, TYPE_INT, size, numBanks);
-        if (size < 0) {
-            throw new IllegalArgumentException("Negative size");
+        if (size <= 0) {
+            throw new IllegalArgumentException("Size must be > 0");
         }
         if (numBanks < 1) {
             throw new IllegalArgumentException("Must have at least one bank");
@@ -121,7 +121,7 @@ public final class DataBufferInt extends DataBuffer
      * @param dataArray The integer array for the {@code DataBuffer}.
      * @param size The size of the {@code DataBuffer} bank.
      * @throws NullPointerException if {@code dataArray} is {@code null}.
-     * @throws IllegalArgumentException if {@code size} is less than zero,
+     * @throws IllegalArgumentException if {@code size} is less than or equal to zero,
      *         or greater than the length of {@code dataArray}.
      */
     public DataBufferInt(int[] dataArray, int size) {
@@ -129,7 +129,7 @@ public final class DataBufferInt extends DataBuffer
         if (dataArray == null) {
             throw new NullPointerException("Null dataArray");
         }
-        if (size < 0 || size > dataArray.length) {
+        if (size <= 0 || size > dataArray.length) {
             throw new IllegalArgumentException("Bad size : " + size);
         }
         data = dataArray;
@@ -153,7 +153,7 @@ public final class DataBufferInt extends DataBuffer
      * @param size The size of the {@code DataBuffer} bank.
      * @param offset The offset into the {@code dataArray}.
      * @throws NullPointerException if {@code dataArray} is {@code null}.
-     * @throws IllegalArgumentException if {@code size} is less than zero,
+     * @throws IllegalArgumentException if {@code size} is less than or equal to zero,
      *         or {@code (offset + size)} is greater than the length of {@code dataArray}.
      */
     public DataBufferInt(int[] dataArray, int size, int offset) {
@@ -161,7 +161,7 @@ public final class DataBufferInt extends DataBuffer
         if (dataArray == null) {
             throw new NullPointerException("Null dataArray");
         }
-        if (size < 0 || (size + offset) > dataArray.length) {
+        if (size <= 0 || (size + offset) > dataArray.length) {
             throw new IllegalArgumentException("Bad size/offset. Size = " + size +
                 " offset = " + offset + " bank length = " + dataArray.length);
         }
@@ -184,7 +184,7 @@ public final class DataBufferInt extends DataBuffer
      * @param dataArray The integer arrays for the {@code DataBuffer}.
      * @param size The size of the banks in the {@code DataBuffer}.
      * @throws NullPointerException if {@code dataArray} is {@code null}.
-     * @throws IllegalArgumentException if {@code size} is less than zero.
+     * @throws IllegalArgumentException if {@code size} is less than or equal to zero.
      * @throws IllegalArgumentException if {@code dataArray} does not have at least one bank.
      * @throws NullPointerException if any bank of {@code dataArray} is {@code null}.
      * @throws IllegalArgumentException if the length of any bank of {@code dataArray}
@@ -192,8 +192,8 @@ public final class DataBufferInt extends DataBuffer
      */
     public DataBufferInt(int[][] dataArray, int size) {
         super(UNTRACKABLE, TYPE_INT, size, dataArray.length);
-        if (size < 0) {
-            throw new IllegalArgumentException("Size is negative");
+        if (size <= 0) {
+            throw new IllegalArgumentException("Size must be > 0");
         }
         if (dataArray == null) {
             throw new NullPointerException("Null dataArray");
@@ -233,7 +233,7 @@ public final class DataBufferInt extends DataBuffer
      * @param dataArray The integer arrays for the {@code DataBuffer}.
      * @param size The size of the banks in the {@code DataBuffer}.
      * @param offsets The offsets into each array.
-     * @throws IllegalArgumentException if {@code size} is less than zero.
+     * @throws IllegalArgumentException if {@code size} is less than or equal to zero.
      * @throws NullPointerException if {@code dataArray} is {@code null}.
      * @throws IllegalArgumentException if {@code dataArray} does not have at least one bank.
      * @throws NullPointerException if {@code offsets} is {@code null}.
@@ -244,8 +244,8 @@ public final class DataBufferInt extends DataBuffer
      */
     public DataBufferInt(int[][] dataArray, int size, int[] offsets) {
         super(UNTRACKABLE, TYPE_INT, size, dataArray.length, offsets);
-        if (size < 0) {
-            throw new IllegalArgumentException("Size is negative");
+        if (size <= 0) {
+            throw new IllegalArgumentException("Size must be > 0");
         }
         if (dataArray == null) {
             throw new NullPointerException("Null dataArray");
