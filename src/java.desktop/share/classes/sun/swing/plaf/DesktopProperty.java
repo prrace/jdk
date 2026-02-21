@@ -50,8 +50,6 @@ import javax.swing.plaf.FontUIResource;
  * <code>invalidate</code> to force the value to be fetched again.
  */
 public class DesktopProperty implements UIDefaults.ActiveValue {
-    private static final StringBuilder DESKTOP_PROPERTY_UPDATE_PENDING_KEY =
-            new StringBuilder("DesktopPropertyUpdatePending");
 
     /**
      * ReferenceQueue of unreferenced WeakPCLs.
@@ -86,23 +84,6 @@ public class DesktopProperty implements UIDefaults.ActiveValue {
         while ((pcl = (WeakPCL)queue.poll()) != null) {
             pcl.dispose();
         }
-    }
-
-
-   private static boolean updatePending;
-
-    /**
-     * Sets whether or not an updateUI call is pending.
-     */
-    private static synchronized void setUpdatePending(boolean update) {
-        updatePending = update;
-    }
-
-    /**
-     * Returns true if a UI update is pending.
-     */
-    private static synchronized boolean isUpdatePending() {
-        return updatePending;
     }
 
     /**
@@ -200,6 +181,8 @@ public class DesktopProperty implements UIDefaults.ActiveValue {
         value = null;
     }
 
+   private static volatile boolean updatePending;
+
     /**
      * Requests that all components in the GUI hierarchy be updated
      * to reflect dynamic changes in this {@literal look&feel}. This update occurs
@@ -208,14 +191,14 @@ public class DesktopProperty implements UIDefaults.ActiveValue {
      * many desktop properties will change at once.
      */
     protected void updateUI() {
-        if (!isUpdatePending()) {
-            setUpdatePending(true);
+        if (!updatePending) {
+            updatePending = true;
             Runnable uiUpdater = new Runnable() {
                 public void run() {
                     try {
                         updateAllUIs();
                     } finally {
-                        setUpdatePending(false);
+                        updatePending = false;
                     }
                 }
             };
