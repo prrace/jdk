@@ -1320,10 +1320,10 @@ public class JEditorPane extends JTextComponent {
     private static final Hashtable<String, String> kitTypeRegistry = new Hashtable<>();
     private static final Hashtable<String, ClassLoader> kitLoaderRegistry = new Hashtable<>();
 
-    private static final Hashtable<String, EditorKit> hitRegistry = new Hashtable<>(3);
+    private static final Hashtable<String, EditorKit> kitRegistry = new Hashtable<>(3);
 
     private static Hashtable<String, EditorKit> getKitRegistry() {
-        return hitRegistry;
+        return kitRegistry;
     }
 
     static final Map<String, String> defaultEditorKitMap = new HashMap<String, String>(0);
