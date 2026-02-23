@@ -919,13 +919,6 @@ mlib_status CONV_FUNC_I(MxN)(mlib_image       *dst,
             if (kw > MAX_KER) kw = kw/2;
           off += kw;
 
-          p2 = sp[0]; p3 = sp[chan1]; p4 = sp[chan2];
-          p5 = sp[chan2 + chan1]; p6 = sp[chan2 + chan2]; p7 = sp[5*chan1];
-
-          k0 = pk[0]; k1 = pk[1]; k2 = pk[2]; k3 = pk[3];
-          k4 = pk[4]; k5 = pk[5]; k6 = pk[6];
-          pk += kw;
-
           if (kw == 7) {
 
             p2 = sp[0]; p3 = sp[chan1]; p4 = sp[chan2];
