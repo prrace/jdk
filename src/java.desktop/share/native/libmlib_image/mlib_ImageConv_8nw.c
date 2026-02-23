@@ -920,12 +920,12 @@ mlib_status CONV_FUNC_I(MxN)(mlib_image       *dst,
             if (kw > MAX_KER) kw = kw/2;
           off += kw;
 
-          sp += (kw - 1)*chan1;
-
           if (kw == 7) {
 
             p2 = sp[0]; p3 = sp[chan1]; p4 = sp[chan2];
             p5 = sp[chan2 + chan1]; p6 = sp[chan2 + chan2]; p7 = sp[5*chan1];
+
+            sp += (kw - 1)*chan1;
 
             k0 = pk[0]; k1 = pk[1]; k2 = pk[2]; k3 = pk[3];
             k4 = pk[4]; k5 = pk[5]; k6 = pk[6];
@@ -967,6 +967,8 @@ mlib_status CONV_FUNC_I(MxN)(mlib_image       *dst,
             p2 = sp[0]; p3 = sp[chan1]; p4 = sp[chan2];
             p5 = sp[chan2 + chan1]; p6 = sp[chan2 + chan2];
 
+            sp += (kw - 1)*chan1;
+
             k0 = pk[0]; k1 = pk[1]; k2 = pk[2]; k3 = pk[3];
             k4 = pk[4]; k5 = pk[5];
 
@@ -1007,6 +1009,8 @@ mlib_status CONV_FUNC_I(MxN)(mlib_image       *dst,
             p2 = sp[0]; p3 = sp[chan1]; p4 = sp[chan2];
             p5 = sp[chan2 + chan1];
 
+            sp += (kw - 1)*chan1;
+
             k0 = pk[0]; k1 = pk[1]; k2 = pk[2]; k3 = pk[3];
             k4 = pk[4];
 
@@ -1046,6 +1050,8 @@ mlib_status CONV_FUNC_I(MxN)(mlib_image       *dst,
 
             p2 = sp[0]; p3 = sp[chan1]; p4 = sp[chan2];
 
+            sp += (kw - 1)*chan1;
+
             k0 = pk[0]; k1 = pk[1]; k2 = pk[2]; k3 = pk[3];
 
             if (l < (n - 1) || off < m) {
@@ -1083,6 +1089,8 @@ mlib_status CONV_FUNC_I(MxN)(mlib_image       *dst,
           } else if (kw == 3) {
 
             p2 = sp[0]; p3 = sp[chan1];
+
+            sp += (kw - 1)*chan1;
 
             k0 = pk[0]; k1 = pk[1]; k2 = pk[2];
 
@@ -1122,6 +1130,8 @@ mlib_status CONV_FUNC_I(MxN)(mlib_image       *dst,
 
             p2 = sp[0];
 
+            sp += (kw - 1)*chan1;
+
             k0 = pk[0]; k1 = pk[1];
 
             if (l < (n - 1) || off < m) {
@@ -1159,6 +1169,8 @@ mlib_status CONV_FUNC_I(MxN)(mlib_image       *dst,
           } else /*if (kw == 1)*/ {
 
             k0 = pk[0];
+
+            sp += (kw - 1)*chan1;
 
             if (l < (n - 1) || off < m) {
               for (i = 0; i <= (wid - 2); i += 2) {
