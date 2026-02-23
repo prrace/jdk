@@ -568,12 +568,6 @@ public abstract class DataBuffer {
         }
     }
 
-    static final void checkNullArray(Object array, String name) {
-        if (array == null) {
-            throw new NullPointerException("Null " + name);
-        }
-    }
-
     static final void checkArraySize(int size, int arrayLen) {
         if (size <= 0 || size > arrayLen) {
             throw new IllegalArgumentException("Bad size : " + size);

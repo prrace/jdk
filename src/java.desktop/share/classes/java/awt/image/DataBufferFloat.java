@@ -25,6 +25,7 @@
 
 package java.awt.image;
 
+import java.util.Objects;
 import static sun.java2d.StateTrackable.State.*;
 
 /**
@@ -116,7 +117,7 @@ public final class DataBufferFloat extends DataBuffer {
      */
     public DataBufferFloat(float[] dataArray, int size) {
         super(UNTRACKABLE, TYPE_FLOAT, size);
-        checkNullArray(dataArray, "datArray");
+        Objects.requireNonNull(dataArray, "dataArray must not be null");
         checkArraySize(size, dataArray.length);
         data = dataArray;
         bankdata = new float[1][];
@@ -147,7 +148,7 @@ public final class DataBufferFloat extends DataBuffer {
      */
     public DataBufferFloat(float[] dataArray, int size, int offset) {
         super(UNTRACKABLE, TYPE_FLOAT, size, 1, offset);
-        checkNullArray(dataArray, "datArray");
+        Objects.requireNonNull(dataArray, "dataArray must not be null");
         checkArraySize(size, offset, dataArray.length);
         data = dataArray;
         bankdata = new float[1][];
@@ -179,10 +180,10 @@ public final class DataBufferFloat extends DataBuffer {
     public DataBufferFloat(float[][] dataArray, int size) {
         super(UNTRACKABLE, TYPE_FLOAT, size, dataArray.length);
         checkSize(size);
-        checkNullArray(dataArray, "dataArray");
+        Objects.requireNonNull(dataArray, "dataArray must not be null");
         checkNumBanks(dataArray.length);
         for (int b = 0; b < dataArray.length; b++) {
-            checkNullArray(dataArray, "bank");
+            Objects.requireNonNull(dataArray, "bank must not be null");
             checkBankSize(b, size, 0, dataArray[b].length);
         }
         bankdata = dataArray.clone();
@@ -218,14 +219,14 @@ public final class DataBufferFloat extends DataBuffer {
     public DataBufferFloat(float[][] dataArray, int size, int[] offsets) {
         super(UNTRACKABLE, TYPE_FLOAT, size,dataArray.length, offsets);
         checkSize(size);
-        checkNullArray(dataArray, "dataArray");
+        Objects.requireNonNull(dataArray, "dataArray must not be null");
         checkNumBanks(dataArray.length);
-        checkNullArray(offsets, "offsets");
+        Objects.requireNonNull(offsets, "offsets must not be null");
         if (dataArray.length != offsets.length) {
             throw new ArrayIndexOutOfBoundsException("Must be an offsets entry for every bank");
         }
         for (int b = 0; b < dataArray.length; b++) {
-            checkNullArray(dataArray[b], "bank");
+            Objects.requireNonNull(dataArray[b], "bank must not be null");
             checkBankSize(b, size, offsets[b], dataArray[b].length);
         }
         bankdata = dataArray.clone();
