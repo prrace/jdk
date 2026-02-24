@@ -749,6 +749,7 @@ public class JFrame  extends Frame implements WindowConstants,
     }
 
     private static boolean defaultLAFDecorated;
+
     /**
      * Provides a hint as to whether or not newly created <code>JFrame</code>s
      * should have their Window decorations (such as borders, widgets to
