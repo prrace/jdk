@@ -1227,12 +1227,11 @@ public class JEditorPane extends JTextComponent {
      */
     @SuppressWarnings("deprecation")
     public static EditorKit createEditorKitForContentType(String type) {
-        Hashtable<String, EditorKit> kitRegistry = getKitRegistry();
         EditorKit k = kitRegistry.get(type);
         if (k == null) {
             // try to dynamically load the support
-            String classname = getKitTypeRegistry().get(type);
-            ClassLoader loader = getKitLoaderRegistry().get(type);
+            String classname = kitTypeRegistry.get(type);
+            ClassLoader loader = kitLoaderRegistry.get(type);
             try {
                 Class<?> c;
                 if (loader != null) {
@@ -1243,7 +1242,6 @@ public class JEditorPane extends JTextComponent {
                     c = SwingUtilities.loadSystemClass(classname);
                 }
                 k = (EditorKit) c.newInstance();
-                kitRegistry.put(type, k);
             } catch (Throwable e) {
                 k = null;
             }
@@ -1287,13 +1285,13 @@ public class JEditorPane extends JTextComponent {
      * @param loader the <code>ClassLoader</code> to use to load the name
      */
     public static void registerEditorKitForContentType(String type, String classname, ClassLoader loader) {
-        getKitTypeRegistry().put(type, classname);
+        kitTypeRegistry.put(type, classname);
         if (loader != null) {
-            getKitLoaderRegistry().put(type, loader);
+            kitLoaderRegistry.put(type, loader);
         } else {
-            getKitLoaderRegistry().remove(type);
+            kitLoaderRegistry.remove(type);
         }
-        getKitRegistry().remove(type);
+        kitRegistry.remove(type);
     }
 
     /**
@@ -1306,25 +1304,13 @@ public class JEditorPane extends JTextComponent {
      * @since 1.3
      */
     public static String getEditorKitClassNameForContentType(String type) {
-        return getKitTypeRegistry().get(type);
-    }
-
-    private static Hashtable<String, String> getKitTypeRegistry() {
-        return kitTypeRegistry;
-    }
-
-    private static Hashtable<String, ClassLoader> getKitLoaderRegistry() {
-        return kitLoaderRegistry;
+        return kitTypeRegistry.get(type);
     }
 
     private static final Hashtable<String, String> kitTypeRegistry = new Hashtable<>();
     private static final Hashtable<String, ClassLoader> kitLoaderRegistry = new Hashtable<>();
 
     private static final Hashtable<String, EditorKit> kitRegistry = new Hashtable<>(3);
-
-    private static Hashtable<String, EditorKit> getKitRegistry() {
-        return kitRegistry;
-    }
 
     static final Map<String, String> defaultEditorKitMap = new HashMap<String, String>(0);
 
