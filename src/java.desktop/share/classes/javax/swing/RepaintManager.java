@@ -119,8 +119,6 @@ public class RepaintManager
      */
     private PaintManager paintManager;
 
-    private static final Object repaintManagerKey = RepaintManager.class;
-
     // Whether or not a VolatileImage should be used for double-buffered painting
     static boolean volatileImageBufferEnabled = true;
     /**
