@@ -720,7 +720,7 @@ public class PopupFactory {
          * Returns the cache to use for heavy weight popups.
          */
         private static List<LightWeightPopup> getLightWeightPopupCache() {
-            synchronized (PopupFactory.class) {
+            synchronized (LightWeightPopup.class) {
                 if (cache == null) {
                     cache = new ArrayList<>();
                 }
