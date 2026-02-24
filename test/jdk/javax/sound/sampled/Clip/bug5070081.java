@@ -31,6 +31,7 @@ import javax.sound.sampled.LineUnavailableException;
 
 /*
  * @test
+ * @key sound
  * @bug 5070081
  * @summary Tests that javax.sound.sampled.Clip does not loses position through
  *          stop/start
