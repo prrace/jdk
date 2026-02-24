@@ -4885,7 +4885,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see RepaintManager#addDirtyRegion
      */
     public void repaint(long tm, int x, int y, int width, int height) {
-        RepaintManager.currentManager().addDirtyRegion(this, x, y, width, height);
+        RepaintManager.currentManager(this).addDirtyRegion(this, x, y, width, height);
     }
 
 

@@ -51,7 +51,7 @@ class SwingPaintEventDispatcher extends sun.awt.PaintEventDispatcher {
     public PaintEvent createPaintEvent(Component component, int x, int y,
                                          int w, int h) {
         if (component instanceof RootPaneContainer) {
-            RepaintManager rm = RepaintManager.currentManager();
+            RepaintManager rm = RepaintManager.currentManager(component);
             if (!SHOW_FROM_DOUBLE_BUFFER ||
                   !rm.show((Container)component, x, y, w, h)) {
                 rm.nativeAddDirtyRegion((Container)component, x, y, w, h);
@@ -62,7 +62,7 @@ class SwingPaintEventDispatcher extends sun.awt.PaintEventDispatcher {
                                         new Rectangle(x, y, w, h));
         }
         else if (component instanceof SwingHeavyWeight) {
-            RepaintManager rm = RepaintManager.currentManager();
+            RepaintManager rm = RepaintManager.currentManager(component);
             rm.nativeAddDirtyRegion((Container)component, x, y, w, h);
             return new IgnorePaintEvent(component, PaintEvent.PAINT,
                                         new Rectangle(x, y, w, h));
@@ -76,7 +76,7 @@ class SwingPaintEventDispatcher extends sun.awt.PaintEventDispatcher {
 
     public boolean queueSurfaceDataReplacing(Component c, Runnable r) {
         if (c instanceof RootPaneContainer) {
-            RepaintManager.currentManager().nativeQueueSurfaceDataRunnable(c, r);
+            RepaintManager.currentManager(c).nativeQueueSurfaceDataRunnable(c, r);
             return true;
         }
         return super.queueSurfaceDataReplacing(c, r);

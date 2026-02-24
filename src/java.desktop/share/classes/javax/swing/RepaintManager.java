@@ -236,8 +236,10 @@ public class RepaintManager
         }
     }
 
+    private static RepaintManager repaintManager;
+
     /**
-     * Return the RepaintManager for the calling thread given a Component.
+     * Return the RepaintManager given a Component.
      *
      * @param c a Component -- unused in the default implementation, but could
      *          be used by an overridden version to return a different RepaintManager
@@ -249,14 +251,7 @@ public class RepaintManager
         // component is ever used to determine the current
         // RepaintManager, DisplayChangedRunnable will need to be modified
         // accordingly.
-        return currentManager();
-    }
 
-    private static RepaintManager repaintManager;
-    /**
-     * Returns the RepaintManager.
-     */
-    static RepaintManager currentManager() {
         synchronized (RepaintManager.class) {
             RepaintManager rm = repaintManager;
             if (rm == null) {
