@@ -112,12 +112,6 @@ public class JPopupMenu extends JComponent implements Accessible,MenuElement {
      */
     private static final String uiClassID = "PopupMenuUI";
 
-    /**
-     * Key used in AppContext to determine if light way popups are the default.
-     */
-    private static final Object defaultLWPopupEnabledKey =
-        new StringBuffer("JPopupMenu.defaultLWPopupEnabledKey");
-
     /** Bug#4425878-Property javax.swing.adjustPopupLocationToFit introduced */
     static boolean popupPositionFixDisabled =
          System.getProperty("javax.swing.adjustPopupLocationToFit","").equals("false");
