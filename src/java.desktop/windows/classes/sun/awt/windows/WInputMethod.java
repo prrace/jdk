@@ -602,7 +602,7 @@ final class WInputMethod extends InputMethodAdapter
                                                       commitedTextLength,
                                                       TextHitInfo.leading(caretPos),
                                                       TextHitInfo.leading(visiblePos));
-        WToolkit.postEvent(WToolkit.targetToAppContext(source), event);
+        WToolkit.postEvent(event);
     }
 
     public void inquireCandidatePosition()
