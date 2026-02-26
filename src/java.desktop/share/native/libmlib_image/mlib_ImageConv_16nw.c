@@ -1089,6 +1089,8 @@ mlib_status CONV_FUNC_I(MxN)(mlib_image       *dst,
 
             p2 = sp[0]; p3 = sp[chan1];
 
+            sp += (kw - 1)*chan1;
+
             k0 = pk[0]; k1 = pk[1]; k2 = pk[2];
 
             if (l < (n - 1) || off < m) {
