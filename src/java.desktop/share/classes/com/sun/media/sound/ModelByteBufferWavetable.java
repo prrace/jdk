@@ -200,6 +200,9 @@ public final class ModelByteBufferWavetable implements ModelWavetable {
         }
         if (format == null) {
             InputStream is = buffer.getInputStream();
+            if (is == null) {
+                return null;
+            }
             AudioInputStream ais = null;
             try {
                 ais = AudioSystem.getAudioInputStream(is);
